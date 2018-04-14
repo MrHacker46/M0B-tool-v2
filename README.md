@@ -13,16 +13,16 @@ M0B tool v2 includes now :
 - sql injection finder
 - CMS detect
 
-. To keep libedoor and rakuten (japanese engines) make sure to change proxy every time , if you don't change it
+To keep libedoor and rakuten (japanese engines) make sure to change proxy every time , if you don't change it
 the ip gonna be blacklisted specially if you are not from japan
 to change it : go to line 41
 - $jpr = "put japanese proxy here";
-. and now all you need is changing it
+And now all you need is changing it
 
 # Remarque
 This tool is in test period , so you may find some issues
 
-and if you want some new ads for the tool you can send it as issues or to my email :
+And if you want some new ads for the tool you can send it as issues or to my email :
 mobrinehadye@protonmail.com
 
 # Help : more explaination are included in the tool
@@ -34,7 +34,7 @@ mobrinehadye@protonmail.com
 
 # WIN32
 
-if you are using this tool from windows make sure to add:
+If you are using this tool from windows make sure to add:
 - use Win32::Console::ANSI;
 
 # NEXT GOALS
@@ -42,4 +42,4 @@ if you are using this tool from windows make sure to add:
 - ADDING A EXPLOIT WITH BIG EXPLOITS INCLUDES MANY CMS
 
 # WARNING
-attacking any site is not my responsability
+Attacking any site / finding vulnerabilities with this tool is not my responsability
