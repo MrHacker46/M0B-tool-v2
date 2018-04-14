@@ -17,6 +17,7 @@ To keep libedoor and rakuten (japanese engines) make sure to change proxy every 
 the ip gonna be blacklisted specially if you are not from japan
 to change it : go to line 41
 - $jpr = "put japanese proxy here";
+
 And now all you need is changing it
 
 # Remarque
