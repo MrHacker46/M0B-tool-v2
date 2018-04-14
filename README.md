@@ -13,7 +13,7 @@ M0B tool v2 includes now :
 - sql injection finder
 - CMS detect
 
-To keep libedoor and rakuten (japanese engines) make sure to change proxy every time , if you don't change it
+To keep livedoor and rakuten (japanese engines) make sure to change proxy every time , if you don't change it
 the ip gonna be blacklisted specially if you are not from japan
 to change it : go to line 41
 - $jpr = "put japanese proxy here";
