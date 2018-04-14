@@ -20,6 +20,10 @@ to change it : go to line 41
 
 And now all you need is changing it
 
+## Install
+- git clone https://github.com/mobrine-mob/M0B-tool-v2.git
+
+
 # Remarque
 This tool is in test period , so you may find some issues
 
