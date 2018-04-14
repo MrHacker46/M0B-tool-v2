@@ -38,7 +38,7 @@ $ag->cookie_jar({});
 $ag1 = LWP::UserAgent->new();
 $ag1->agent("$us1");
 ############################## User agent with japanese proxy ( for livedoor & rakuten )
-$jpr = "61.195.108.103:8080";
+$jpr = "put japanese proxy here";
 $aj = LWP::UserAgent->new();
 $aj->agent("$us1");
 $aj->proxy([qw/ http https /] => "http://$jpr"); # japanese proxy
