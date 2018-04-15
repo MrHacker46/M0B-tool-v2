@@ -24,7 +24,8 @@ And now all you need is changing it
 - git clone https://github.com/mobrine-mob/M0B-tool-v2.git
 
 ## Requirements
-you need to install LWP::Protocol::socks module
+you need to install LWP::Protocol::socks module , it is necessary to keep some search engines working
+
 just put this commands and all fine
 
 
