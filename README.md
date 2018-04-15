@@ -23,6 +23,14 @@ And now all you need is changing it
 ## Install
 - git clone https://github.com/mobrine-mob/M0B-tool-v2.git
 
+## Requirements
+you need to install LWP::Protocol::socks module
+just put this commands and all fine
+
+
+perl -MCPAN -e shell
+
+cpan> install LWP::Protocol::socks
 
 # Remarque
 This tool is in test period , so you may find some issues
