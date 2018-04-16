@@ -24,7 +24,7 @@ And now all you need is changing it
 - git clone https://github.com/mobrine-mob/M0B-tool-v2.git
 
 ## Requirements
-you need to install LWP::Protocol::socks module , it is necessary to keep some search engines working by using tor proxy 'socks'
+### you need to install LWP::Protocol::socks module , it is necessary to keep some search engines working by using tor proxy 'socks'
 
 just put this commands and all fine
 
@@ -32,6 +32,13 @@ just put this commands and all fine
 perl -MCPAN -e shell
 
 cpan> install LWP::Protocol::socks
+
+### You need to install tor proxy
+For linux : https://www.youtube.com/watch?v=jqrd9Ba3VOc (tutorial how to install using proxychains)
+
+For windows : you can easily download Expert Bundle from tor link and run it
+
+link : https://www.torproject.org/download/download
 
 # Remarque
 This tool is in test period , so you may find some issues
