@@ -34,9 +34,9 @@ perl -MCPAN -e shell
 cpan> install LWP::Protocol::socks
 
 ### You need to install tor proxy
-For linux : https://www.youtube.com/watch?v=jqrd9Ba3VOc (tutorial how to install using proxychains)
+- For linux : https://www.youtube.com/watch?v=jqrd9Ba3VOc (tutorial how to install using proxychains)
 
-For windows : you can easily download Expert Bundle from tor link and run it
+- For windows : you can easily download Expert Bundle from tor link and run it
 
 link : https://www.torproject.org/download/download
 
@@ -59,7 +59,6 @@ If you are using this tool from windows make sure to add:
 - use Win32::Console::ANSI;
 
 # NEXT GOALS
-- ADDING A PORT SCANNER FOR SINGLE AND LIST OF IPS
 - ADDING A EXPLOIT WITH BIG EXPLOITS INCLUDES MANY CMS
 
 # WARNING
