@@ -1189,7 +1189,7 @@ sub cms(){
 $magsite = $site . '/admin';
 my $magcms = $ua->get("$magsite")->content;
 my $cms = $ua->get("$site")->content;
-if($cms =~/wp-content|wordpress/) {
+if($cms =~/<a href=\"https:\/\/wordpress.org\/\">Proudly powered by WordPress|<meta name=\"generator\" content=\"WordPress|\/wp-content\/(.*).js/) {
    print color("bold white"), " - WordPress\n\n";
 wpuser();
 }
@@ -1198,7 +1198,7 @@ elsif($cms =~/<script type=\"text\/javascript\" src=\"\/media\/system\/js\/mooto
    print color("bold white"), " - Joomla\n\n"; 
 joomlabr();
 }
-elsif($cms =~/Drupal|drupal|sites\/all|drupal.org/) {
+elsif($cms =~/name=\"Generator\" content=\"Drupal|Drupal|drupal|sites\/all|drupal.org/) {
    print color("bold white"), " - Drupal\n\n";
 drupalbr();
 }
@@ -1208,7 +1208,7 @@ elsif($cms =~/route=product|OpenCart|route=common|catalog\/view\/theme/) {
 opencartbr();
 }
 
-elsif($magcms =~/Log into Magento Admin Page|name=\"dummy\" id=\"dummy\"|Magento/) {
+elsif($magcms =~/MAGENTO\, INC\. ALL RIGHTS RESERVED|Magento Ecommerce by Smart Solutions|Log into Magento Admin Page|Magento|powered by magento|name=\"dummy\" id=\"dummy\"|Site magento|index.php\customer\account\|skin\frontend\|powered by webforms/) {
    print color("bold white"), " - Magento\n\n";
 magentobr();
 }
