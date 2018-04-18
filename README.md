@@ -12,6 +12,9 @@ M0B tool v2 includes now :
 - dork scanner [ baidu, bing, livedoor, sogou, oscobo, mywebsearch, teoma, rakuten ]
 - sql injection finder
 - CMS detect
+- IP PORT SCANNER
+- Brute force auto detect cms [WORDPRESS - JOOMLA - DRUPAL - MAGENTO - OPENCART]
+- Exploit bot [ DRUPAL - ZEN CART ] [MORE COMING SOON]
 
 To keep livedoor and rakuten (japanese engines) make sure to change proxy every time , if you don't change it
 the ip gonna be blacklisted specially if you are not from japan
