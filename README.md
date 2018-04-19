@@ -6,10 +6,11 @@ I'm very sorry to say that but i'm still learning more perl and i'm not free all
 warning : this tool is for educational purpose only !
 
 - M0B tool version 2
-______________________   perl mobv2.pl
+
+~~perl mobv2.pl
 
 
-______________________   perl mobv2.pl --help
+~ perl mobv2.pl --help
 
 M0B tool v2 includes now :
 - dork scanner [ baidu, bing, livedoor, sogou, oscobo, mywebsearch, teoma, rakuten ]
