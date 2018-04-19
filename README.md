@@ -7,6 +7,9 @@ warning : this tool is for educational purpose only !
 
 - M0B tool version 2
 
+_ perl mobv2.pl
+
+_ perl mobv2.pl --help
 
 M0B tool v2 includes now :
 - dork scanner [ baidu, bing, livedoor, sogou, oscobo, mywebsearch, teoma, rakuten ]
