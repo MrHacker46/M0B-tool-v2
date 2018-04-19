@@ -6,11 +6,11 @@ I'm very sorry to say that but i'm still learning more perl and i'm not free all
 warning : this tool is for educational purpose only !
 
 - M0B tool version 2
-
+_______________________
 _ perl mobv2.pl
 
 _ perl mobv2.pl --help
-
+______________________
 M0B tool v2 includes now :
 - dork scanner [ baidu, bing, livedoor, sogou, oscobo, mywebsearch, teoma, rakuten ]
 - sql injection finder
