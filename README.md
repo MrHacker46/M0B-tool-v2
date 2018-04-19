@@ -11,7 +11,8 @@ warning : this tool is for educational purpose only !
 
 .  perl mobv2.pl --help
 
-M0B tool v2 includes now :
+
+## M0B tool v2 includes now :
 - dork scanner [ baidu, bing, livedoor, sogou, oscobo, mywebsearch, teoma, rakuten ]
 - sql injection finder
 - CMS detect
