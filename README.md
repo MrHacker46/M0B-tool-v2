@@ -14,7 +14,7 @@ M0B tool v2 includes now :
 - CMS detect
 - IP PORT SCANNER
 - Brute force auto detect cms [WORDPRESS - JOOMLA - DRUPAL - MAGENTO - OPENCART]
-- Exploit bot [ DRUPAL - ZEN CART ] [MORE COMING SOON]
+- Exploit bot [ DRUPAL - ZEN CART - WORDPRESS - JOOMLA - PRESTASHOP - OPENCART ]
 
 To keep livedoor and rakuten (japanese engines) make sure to change proxy every time , if you don't change it
 the ip gonna be blacklisted specially if you are not from japan
@@ -62,7 +62,7 @@ If you are using this tool from windows make sure to add:
 - use Win32::Console::ANSI;
 
 # NEXT GOALS
-- ADDING A EXPLOIT WITH BIG EXPLOITS INCLUDES MANY CMS
+- ADDING A SHELL FINDER WITH LINK DETECT AND CMS DETECT ( last version included just the cms one so its not precise )
 
 # WARNING
 Attacking any site / finding vulnerabilities with this tool is not my responsability
