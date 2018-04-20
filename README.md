@@ -19,6 +19,15 @@ warning : this tool is for educational purpose only !
 - IP PORT SCANNER
 - Brute force auto detect cms [WORDPRESS - JOOMLA - DRUPAL - MAGENTO - OPENCART]
 - Exploit bot [ DRUPAL - ZEN CART - WORDPRESS - JOOMLA - PRESTASHOP - OPENCART ]
+- Hidden M0B
+
+# Hidden M0B
+includes :
+- shell/cpanel/hacked index finder/detecter
+- smtp finder
+- grab website informations
+
+# Requirements
 
 To keep livedoor and rakuten (japanese engines) make sure to change proxy every time , if you don't change it
 the ip gonna be blacklisted specially if you are not from japan
@@ -27,10 +36,9 @@ to change it : go to line 41
 
 And now all you need is changing it
 
-## Install
+### Install
 - git clone https://github.com/mobrine-mob/M0B-tool-v2.git
 
-## Requirements
 ### you need to install LWP::Protocol::socks module , it is necessary to keep some search engines working by using tor proxy 'socks'
 
 just put this commands and all fine
@@ -54,19 +62,19 @@ And if you want some new ads for the tool you can send it as issues or to my ema
 mobrinehadye@protonmail.com
 
 # Help : more explaination are included in the tool
- - --m : select search engine you want.
+- --other : find more tools
+______________________________
+- --m : select search engine you want.
  - --d : dork to scan.
  - --o : Output file to save dork scan results.
- - --sql : scan a list of sites.
+ ________________________________
+- --sql : scan a list of sites.
  - --scan : scan a list of sites, scan CMS
-
-# WIN32
-
-If you are using this tool from windows make sure to add:
-- use Win32::Console::ANSI;
-
-# NEXT GOALS
-- ADDING A SHELL FINDER WITH LINK DETECT AND CMS DETECT ( last version included just the cms one so its not precise )
+___________________________________
+- --ex : exploit a list of sites
+___________________________________
+- --br : brute force admin login
+- --lp : passwords list for brute force
 
 # WARNING
 Attacking any site / finding vulnerabilities with this tool is not my responsability
