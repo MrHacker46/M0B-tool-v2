@@ -58,6 +58,15 @@ $BruteForce="BruteForce";
         mkdir $BruteForce or die "Error creating directory: $BruteForce";
     }
 
+	$result="result";
+    if (-e $result) 
+    {
+    }
+    else
+    {
+        mkdir $result or die "Error creating directory: $result";
+    }
+    
 	$hidden="hidden";
     if (-e $hidden) 
     {
