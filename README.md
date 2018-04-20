@@ -27,6 +27,10 @@ includes :
 - smtp finder
 - grab website informations
 
+### Install
+- git clone https://github.com/mobrine-mob/M0B-tool-v2.git
+
+
 # Requirements
 
 To keep livedoor and rakuten (japanese engines) make sure to change proxy every time , if you don't change it
@@ -35,9 +39,6 @@ to change it : go to line 41
 - $jpr = "put japanese proxy here";
 
 And now all you need is changing it
-
-### Install
-- git clone https://github.com/mobrine-mob/M0B-tool-v2.git
 
 ### you need to install LWP::Protocol::socks module , it is necessary to keep some search engines working by using tor proxy 'socks'
 
