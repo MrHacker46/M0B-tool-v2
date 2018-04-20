@@ -79,3 +79,11 @@ ___________________________________
 
 # WARNING
 Attacking any site / finding vulnerabilities with this tool is not my responsability
+
+# PROOFS
+
+![nh2](https://user-images.githubusercontent.com/33225846/39060684-f163ef8c-44b9-11e8-8fcb-d236909edd48.png)
+![nh3](https://user-images.githubusercontent.com/33225846/39060685-f19be7d4-44b9-11e8-9cc8-c74ac6b77a69.png)
+![nh4](https://user-images.githubusercontent.com/33225846/39060686-f1c5601e-44b9-11e8-994e-46cb97c3134b.png)
+![nh](https://user-images.githubusercontent.com/33225846/39060687-f1f0dcee-44b9-11e8-9c93-e5e4d9ff82ed.png)
+![nh1](https://user-images.githubusercontent.com/33225846/39060918-95e2d4ba-44ba-11e8-9a4f-8364a380eee6.png)
