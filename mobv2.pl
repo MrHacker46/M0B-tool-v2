@@ -58,15 +58,6 @@ $BruteForce="BruteForce";
         mkdir $BruteForce or die "Error creating directory: $BruteForce";
     }
 
-	$result="result";
-    if (-e $result) 
-    {
-    }
-    else
-    {
-        mkdir $result or die "Error creating directory: $result";
-    }
-    
 	$hidden="hidden";
     if (-e $hidden) 
     {
@@ -76,6 +67,14 @@ $BruteForce="BruteForce";
         mkdir $hidden or die "Error creating directory: $hidden";
     }
 	
+	$result="result";
+    if (-e $result) 
+    {
+    }
+    else
+    {
+        mkdir $result or die "Error creating directory: $result";
+    }
 	
 	$rez="rez";
     if (-e $rez) 
@@ -139,7 +138,7 @@ if ( @uname =~ Linux ) {    #for linux os
 	print "             |or you can also use all engines\n";
 	print "             |ex : perl $0 --m all ...\n";
 	print "             |Valid search engines: baidu, bing, livedoor,\n";
-	print "             |sogou, oscobo, mywebsearch, teoma, rakuten\n";
+	print "             |sogou, oscobo, mywebsearch, teoma, rakuten, ask \n";
 	print "-------------+-------------------------------------------------------------\n";
 	print " --d         |dork to scan.\n";
 	print "             |ex : perl $0 --m baidu --d book.php?id=\n";
@@ -323,7 +322,7 @@ print colored ("[+]You haven't writed dork yet!\n\n","white on_red");
 exit;
 }
 
-if ($search_motor !~ /teoma|oscobo|mywebsearch|sogou|baidu|rakuten|livedoor|bing|all/) {
+if ($search_motor !~ /teoma|oscobo|mywebsearch|sogou|baidu|rakuten|livedoor|bing|all|ask/) {
 print colored ("[+]Your search engine isn't good / doesn't exist in our list\n\n","white on_red");
 exit;
 }
@@ -372,7 +371,7 @@ presento();
 
 sub motors {
 if ($search_motor =~ all) {
-bing(),livedoor(),rakuten(),baidu(),sogou(),mywebsearch(),oscobo(),teoma(),
+bing(),livedoor(),rakuten(),baidu(),sogou(),mywebsearch(),oscobo(),teoma(),ask(),
 }
 elsif ($search_motor =~ bing) {
 bing();
@@ -397,6 +396,9 @@ oscobo();
 }
 elsif ($search_motor =~ teoma) {
 teoma();
+}
+elsif ($search_motor =~ ask) {
+ask();
 }
 
 }
@@ -453,6 +455,49 @@ open(savea, ">>$search_output");
 }
 }
 }
+
+sub ask {
+for ($ii = 1; $ii <= 2000; $ii+=1){
+
+$url = "https://ask.com/web?q=$dork&page=$ii";
+$resp = $ag1->request(HTTP::Request->new(GET => $url));
+$rrs = $resp->content;
+
+if ( $resp->content !~ m/<p class="PartialSearchResults-item-url">/g) {$ii = 2000};
+
+while($rrs =~ m/PartialSearchResults-item-url">(.*?)<\/p>/g){
+
+$link = $1;
+  if ( $link !~ /$att/)
+  {
+        if ($link !~ /^http:|^https:|^ftp:/)
+       {
+        $link = 'http://' . "$link" . '';
+       }
+
+
+
+if($link !~ /\"|\?|\=|index\.php/){
+          if  (!  grep (/$link/,@result))
+          {
+print "$link\n";
+open(save, '>>result/ask.txt');
+    print save "$link\n";
+    close(save);
+if (defined($search_output)) {
+open(savea, ">>$search_output");
+    print savea "$link\n";
+    close(savea);
+}   
+
+            push(@result,$link);
+}
+}
+}
+}
+}
+}
+
 sub mywebsearch {
 for ($ii = 1; $ii <= 2000; $ii+=1){
 
@@ -5037,7 +5082,7 @@ else{
 }
 
 sub getsmtp {
-print "List : \n";
+print "List : ";
 $list=<STDIN>;
 open(tarrget,"<$list") or die "[LIST NOT FOUND] \n";
 while(<tarrget>){
@@ -5440,3 +5485,4 @@ sub subdomain {
         print item('3'),"Check If Website Working\n";
     }
 }
+
