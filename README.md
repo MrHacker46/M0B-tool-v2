@@ -13,7 +13,7 @@ warning : this tool is for educational purpose only !
 
 
 ## M0B tool v2 includes now :
-- dork scanner [ baidu, bing, livedoor, sogou, oscobo, mywebsearch, teoma, rakuten ]
+- dork scanner [ baidu, bing, livedoor, sogou, oscobo, mywebsearch, teoma, rakuten, ask ]
 - sql injection finder
 - CMS detect
 - IP PORT SCANNER
